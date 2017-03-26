@@ -20,6 +20,23 @@ class TweetsController < ApplicationController
   end
 
   def edit
+    get 'tweets/:id/edit' => 'tweets#edit', as: 'edit_tweet'
+  end
+  
+  def update
+    @tweet = Tweet.find(params[:id])
+    @tweet.update(tweet_params)
+    if @tweet.save
+      redirect_to @tweet, notice: "tweet update"
+    else
+      render :edit, notice: "tweet could not be update"
+    end
+  end
+  
+  def destroy
+    @tweet = Tweet.find(params[:id])
+    @tweet.destroy
+    redirect_to root_path
   end
   
 private
